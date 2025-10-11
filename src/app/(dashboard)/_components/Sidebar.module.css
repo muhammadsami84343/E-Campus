@@ -1,0 +1,39 @@
+.sidebar {
+  width: 260px;
+  min-height: 100dvh;
+  border-right: 1px solid #e5e7eb;
+  padding: 16px;
+  position: sticky;
+  top: 0;
+  background: #fff;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin-bottom: 12px;
+}
+
+.menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu li a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: #111827;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.menu li a:hover {
+  background: #f3f4f6;
+}
+
+.active a {
+  background: #111827;
+  color: #fff;
+}
