@@ -1,0 +1,128 @@
+.preloaderWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+/* For mobile/tablet screens */
+@media (max-width: 1024px) {
+  .preloaderWrapper {
+    left: 0;
+  }
+}
+
+.preloader {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: scaleIn 0.5s ease forwards;
+}
+
+.logoContainer {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.logo {
+  position: relative;
+  z-index: 2;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+/* Animated arcs */
+.arc1, .arc2, .arc3 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid transparent;
+  animation: rotate 3s linear infinite;
+}
+
+.arc1 {
+  width: 100px;
+  height: 100px;
+  border-top: 2px solid #4f46e5;
+  border-left: 2px solid #06b6d4;
+  animation-duration: 2s;
+}
+
+.arc2 {
+  width: 120px;
+  height: 120px;
+  border-right: 2px solid #8b5cf6;
+  border-bottom: 2px solid #06b6d4;
+  animation-duration: 3s;
+  animation-direction: reverse;
+}
+
+.arc3 {
+  width: 140px;
+  height: 140px;
+  border-top: 2px solid #06b6d4;
+  border-right: 2px solid #4f46e5;
+  animation-duration: 4s;
+}
+
+/* Animations */
+@keyframes rotate {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+  }
+  to {
+    transform: scale(1);
+  }
+}

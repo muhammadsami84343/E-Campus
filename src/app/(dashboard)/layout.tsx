@@ -3,29 +3,35 @@
 import { useState, type ReactNode } from "react";
 import Nav from "./_components/Nav";
 import Sidebar from "./_components/Sidebar";
+import LoadingProvider from "./_components/LoadingProvider";
 import "../globals.css";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh", paddingTop: "56px" }}>
+      {/* Sticky Navbar */}
       <Nav onMenuClick={() => setSidebarOpen(true)} />
 
+      {/* Sidebar + Main Content */}
       <div style={{ display: "flex", flex: 1 }}>
-        {/* Sidebar (controlled) */}
+        {/* Sticky Sidebar (desktop), overlay (mobile) */}
         <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-        {/* Main content */}
+        {/* Main content fills remaining space, no margin */}
         <main
           style={{
             flex: 1,
             padding: "16px",
-            marginLeft: "0",
+            minHeight: "calc(100vh - 56px)",
+            background: "#f8fafc"
           }}
           className="content"
         >
-          {children}
+          <LoadingProvider>
+            {children}
+          </LoadingProvider>
         </main>
       </div>
     </div>

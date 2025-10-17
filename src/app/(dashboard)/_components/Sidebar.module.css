@@ -1,3 +1,14 @@
+/* Highlight for active link */
+.activeLink {
+  background: #272f40;
+  color: #fbbf24;
+}
+
+/* Highlight for expanded group */
+.activeGroup {
+  background: #1e293b;
+  color: #fbbf24;
+}
 /* components/Sidebar.module.css */
 :root {
   --sb-width: 260px;
@@ -33,12 +44,13 @@
   width: var(--sb-width);
   height: calc(100vh - 56px);
   background: var(--bg);
-  border-right: 1px solid var(--border);
+  border-right: none;
   transform: translateX(-100%);
   transition: transform 200ms ease;
-  z-index: 50;
+  z-index: 40;
   display: flex;
   flex-direction: column;
+  margin-top: 0;
 }
 .open {
   transform: translateX(0);
@@ -62,7 +74,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px;
-  border-bottom: 1px solid var(--border);
+  /* border-bottom removed to eliminate white line */
 }
 .title {
   font-weight: 700;
@@ -112,8 +124,14 @@
   border-radius: 8px;
   display: flex;
   align-items: center;
-  gap: 8px;
   cursor: pointer;
+}
+
+.buttonContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
 }
 .groupBtn:hover {
   background: #272f40;
@@ -129,9 +147,10 @@
   display: inline-block;
   transition: transform 160ms ease;
   margin-right: 6px;
+  margin-top: -2px;
 }
 .groupBtn[aria-expanded="true"] .caret {
-  transform: rotate(45deg);
+  transform: rotate(45deg) translate(-2px, -2px);
 }
 
 /* Children (collapsible) */
@@ -146,11 +165,20 @@
 }
 
 .link {
-  display: block;
-  padding: 9px 12px 9px 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
   border-radius: 8px;
   color: var(--text);
   text-decoration: none;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  color: currentColor;
 }
 .link:hover {
   background: #272f40;

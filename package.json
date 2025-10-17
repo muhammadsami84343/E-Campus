@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.9",
     "@types/mongodb": "^4.0.6",
     "chart.js": "^4.5.1",
     "mongodb": "^6.20.0",
