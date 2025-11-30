@@ -25,7 +25,7 @@ export default function Nav({ onMenuClick }: NavProps) {
 
       {/* Brand */}
       
-<Link href="/">
+<Link href="/dashboard-home">
   <div className="w 8 h-8 rounded-lg overflow-hidden">
     <img
       src="/logo.png"
@@ -50,7 +50,7 @@ export default function Nav({ onMenuClick }: NavProps) {
           <div className={styles.userName}>Admin User</div>
           <div className={styles.userEmail}>administrator@school.com</div>
         </div>
-        <Link href="/logout" >Logout </Link>
+        <Link href="/login" className={styles.logoutLink}>Logout</Link>
       </div>
     </header>
   );

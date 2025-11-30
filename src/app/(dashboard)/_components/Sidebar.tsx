@@ -24,7 +24,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
   useEffect(() => {
     setCurrentPath(pathname);
     // Reset expanded state when navigating to a new path
-    if (pathname === '/') {
+    if (pathname === '/dashboard-home') {
       setExpanded({});
     }
   }, [pathname]);
@@ -35,8 +35,8 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
   const flatKey = (labels: string[]) => labels.join(" › ");
 
   const isActiveLink = (href: string) => {
-    if (href === "/") {
-      return currentPath === "/";
+    if (href === "/dashboard-home") {
+      return currentPath === "/dashboard-home";
     }
     return href === currentPath;
   };
@@ -68,7 +68,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
             }
             onClick={() => {
               onClose();
-              if (link.href === '/') {
+              if (link.href === '/dashboard-home') {
                 setExpanded({});
               }
             }}

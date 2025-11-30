@@ -4,7 +4,6 @@ import Script from "next/script";
 import { Fragment, useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { Dialog, Transition } from "@headlessui/react";
-import Preloader from "./Preloader";
 
 // Animated counter hook
 function useCountUp(end: number, duration: number = 1000) {
@@ -80,21 +79,27 @@ const pendingFees: PendingFee[] = [
 ];
 
 export default function DashboardClientPage() {
-  // State for modals and loading
+  // State for modals
   const [showAllAdmissions, setShowAllAdmissions] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
+  
+  // Prevent hydration mismatch by only rendering after mount
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   
   // Effect to initialize charts when component mounts or when returning to the dashboard
   useEffect(() => {
+    if (!isMounted) return;
+    
     const timer = setTimeout(() => {
       if (typeof window !== 'undefined' && (window as any).Chart) {
         initCharts();
-        setIsLoading(false);
       }
     }, 100); // Small delay to ensure DOM is ready
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [isMounted]);
   
   // Export helper function
   const exportPendingFees = () => {
@@ -254,17 +259,51 @@ export default function DashboardClientPage() {
     (window as any).chartInstances = chartInstances;
   };
 
+  const totalStudents = useCountUp(isMounted ? 567 : 0);
+  const totalStaff = useCountUp(isMounted ? 68 : 0);
+  const feesCollected = useCountUp(isMounted ? 52000 : 0);
+  const totalClasses = useCountUp(isMounted ? 24 : 0);
+
+  if (!isMounted) {
+    return (
+      <main className="transition-opacity duration-300">
+        <h2 className="text-xl font-semibold mb-4">Dashboard</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+          <div className="relative rounded-2xl p-5 bg-gradient-to-br from-indigo-600 to-cyan-500 text-white overflow-hidden">
+            <div className="text-white/90">Total Students</div>
+            <div className="text-3xl font-bold mt-1">567</div>
+            <div className="text-white/70 text-sm">+45 this month</div>
+          </div>
+          <div className="relative rounded-2xl p-5 bg-gradient-to-br from-emerald-600 to-green-500 text-white overflow-hidden">
+            <div className="text-white/90">Staff</div>
+            <div className="text-3xl font-bold mt-1">68</div>
+            <div className="text-white/70 text-sm">+4 this month</div>
+          </div>
+          <div className="relative rounded-2xl p-5 bg-gradient-to-br from-amber-500 to-orange-500 text-white overflow-hidden">
+            <div className="text-white/90">Fees Collected</div>
+            <div className="text-3xl font-bold mt-1">₨ 52000</div>
+            <div className="text-white/70 text-sm">95% of target</div>
+          </div>
+          <div className="relative rounded-2xl p-5 bg-gradient-to-br from-rose-500 to-pink-500 text-white overflow-hidden">
+            <div className="text-white/90">Classes</div>
+            <div className="text-3xl font-bold mt-1">24</div>
+            <div className="text-white/70 text-sm">Active sessions</div>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <>
-      {isLoading && <Preloader />}
-      <main className={`${isLoading ? 'opacity-50' : 'opacity-100'} transition-opacity duration-300`}>
+      <main className="transition-opacity duration-300">
         <h2 className="text-xl font-semibold mb-4">Dashboard</h2>
 
       {/* === Stats Cards (unchanged layout & values) === */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         <div className="relative rounded-2xl p-5 bg-gradient-to-br from-indigo-600 to-cyan-500 text-white overflow-hidden">
           <div className="text-white/90">Total Students</div>
-          <div className="text-3xl font-bold mt-1">{useCountUp(567)}</div>
+          <div className="text-3xl font-bold mt-1">{totalStudents}</div>
           <div className="text-white/70 text-sm">+45 this month</div>
           <div className="absolute right-4 bottom-3 text-white/30">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -275,7 +314,7 @@ export default function DashboardClientPage() {
 
         <div className="relative rounded-2xl p-5 bg-gradient-to-br from-emerald-600 to-green-500 text-white overflow-hidden">
           <div className="text-white/90">Staff</div>
-          <div className="text-3xl font-bold mt-1">{useCountUp(68)}</div>
+          <div className="text-3xl font-bold mt-1">{totalStaff}</div>
           <div className="text-white/70 text-sm">+4 this month</div>
           <div className="absolute right-4 bottom-3 text-white/30">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -286,7 +325,7 @@ export default function DashboardClientPage() {
 
         <div className="relative rounded-2xl p-5 bg-gradient-to-br from-amber-500 to-orange-500 text-white overflow-hidden">
           <div className="text-white/90">Fees Collected</div>
-          <div className="text-3xl font-bold mt-1">₨ {useCountUp(52000)}</div>
+          <div className="text-3xl font-bold mt-1">₨ {feesCollected.toLocaleString()}</div>
           <div className="text-white/70 text-sm">95% of target</div>
           <div className="absolute right-4 bottom-3 text-white/30">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -296,12 +335,12 @@ export default function DashboardClientPage() {
         </div>
 
         <div className="relative rounded-2xl p-5 bg-gradient-to-br from-rose-600 to-red-500 text-white overflow-hidden">
-          <div className="text-white/90">Unpaid Dues</div>
-          <div className="text-3xl font-bold mt-1">₨ {useCountUp(8500)}</div>
-          <div className="text-white/70 text-sm">78 students pending</div>
+          <div className="text-white/90">Classes</div>
+          <div className="text-3xl font-bold mt-1">{totalClasses}</div>
+          <div className="text-white/70 text-sm">Active sessions</div>
           <div className="absolute right-4 bottom-3 text-white/30">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M12 2 1 21h22L12 2zm1 7v5h-2V9h2zm0 7v2h-2v-2h2z"></path>
+              <path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
             </svg>
           </div>
         </div>

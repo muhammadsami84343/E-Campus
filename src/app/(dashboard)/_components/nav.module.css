@@ -84,6 +84,20 @@
   padding-left: 6px;
 }
 
+.logoutLink {
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.logoutLink:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  text-decoration: underline;
+}
+
 .userBox:hover .logout {
   text-decoration: underline;
 }

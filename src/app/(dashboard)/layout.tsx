@@ -4,7 +4,6 @@ import { useState, type ReactNode } from "react";
 import Nav from "./_components/Nav";
 import Sidebar from "./_components/Sidebar";
 import LoadingProvider from "./_components/LoadingProvider";
-import "../globals.css";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
