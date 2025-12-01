@@ -9,15 +9,8 @@
   background: #1e293b;
   color: #fbbf24;
 }
+
 /* components/Sidebar.module.css */
-:root {
-  --sb-width: 260px;
-  --border: #e9e9e9;
-  --text: #ffffff;
-  --muted: #666;
-  --bg: #0f172a;
-  --hover: #f6f6f6;
-}
 
 .overlay {
   position: fixed;
@@ -28,16 +21,24 @@
   transition: opacity 180ms ease;
   z-index: 49;
 }
-.title{
+
+.title {
   color: #ffffff;
-  --text:#ffffff
+  --text: #ffffff;
 }
+
 .overlayVisible {
   opacity: 1;
   pointer-events: auto;
 }
 
 .sidebar {
+  --sb-width: 260px;
+  --border: #e9e9e9;
+  --text: #ffffff;
+  --muted: #666;
+  --bg: #0f172a;
+  --hover: #f6f6f6;
   position: fixed;
   top: 56px; /* under navbar height */
   left: 0;
@@ -52,6 +53,7 @@
   flex-direction: column;
   margin-top: 0;
 }
+
 .open {
   transform: translateX(0);
 }

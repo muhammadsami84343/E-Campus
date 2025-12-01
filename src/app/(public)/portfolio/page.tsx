@@ -132,7 +132,7 @@ export default function PortfolioPage() {
   };
 
   return (
-    <>
+    <div className="portfolio-page">
       <div className="bg-animation"></div>
 
       {/* Header */}
@@ -477,6 +477,6 @@ export default function PortfolioPage() {
       >
         <i className="fas fa-chevron-up"></i>
       </button>
-    </>
+    </div>
   );
 }
